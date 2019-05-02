@@ -1,10 +1,159 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Start Page</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            function connexion() {
+                
+                var champLogin = $('#myEmail').val();
+                var champPassword = $('#myPswd').val();
+
+                // Message d'information dans la div #message :
+                $('#message').html('Connexion en cours...');
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'connecter',
+                        login: champLogin,
+                        password: champPassword
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+
+                    // ici votre code...
+                    // 
+                    // si connexion ok, aller sur la page suivante :
+                    window.location = "maPageSuivante.html";
+                    // si connexion pas ok afficher un texte dans la div #message :
+                    $('#message').html('Echec de la connexion');
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+
+                });
+            }
+            
+            function inscription() {
+
+                var champLogin = $('#newEmail').val();
+                var champPassword = $('#newPswd').val();
+                var champNom = $('#newSurname').val();
+                var champPrenom = $('#newName').val();
+                var champAdresse = $('#newAdresse').val();
+                var champDateDeNaissance = $('#newBirthDate').val();
+                var champTel = $('#newTel').val();
+                var champPasswordConfirme = $('#pswdConfirm').val();
+
+                // Message d'information dans la div #message :
+                $('#message').html('Inscription en cours...');
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'inscription',
+                        email: champLogin,
+                        password: champPassword,
+                        name: champPrenom,
+                        surname: champNom,
+                        adress: champAdresse,
+                        birthday: champDateDeNaissance,
+                        tel: champTel,
+                        confirm: champPasswordConfirme,
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    if(response.verified===true){
+                        if(response.connected===true){
+                            alert("Inscription reussie");
+                        } else alert("Echec lors de l'inscription");
+                    }else alert("Les mots de passe ne sont pas identiques");
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+
+                });
+            }
+
+
+
+            $(document).ready(function () {
+
+                console.log('Page chargee => Debut du Script');
+
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#connexionButton').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+
+                    // appel de la fonction connexion
+                    connexion();
+
+                });
+
+                $('#createButton').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+
+                    // appel de la fonction connexion
+                    inscription();
+
+                });
+
+
+            });
+        </script>
+        <style>
+            titre {color : white; font-size: 40px;
+                   position: fixed; /* or absolute */
+                   top: 45%;
+                   left: 45%;
+            }
+            /* Feuille de Style CSS (dans la page) */
+            #message { margin: 25px; padding: 10px; border-radius: 10px; border: 2px solid violet; }
+        </style>
+        <title>Posit'IF</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
-    <body>
-        <h1>Hello World!</h1>
+    <body background="background.jpg">
+        <div>
+            <titre>Posit'IF</titre>
+            <input type="email" id="myEmail" placeholder="Email"/><br>
+            <input type="password" id="myPswd" placeholder="Mot de passe" /><br>
+            <button id="connexionButton">
+                Connexion
+            </button><br><br>
+        </div>
+        <div>
+            <input type="text" id="newSurname" placeholder="Nom"/><br>
+            <input type="text" id="newName" placeholder="Prenom" /><br>
+            <input type="text" id="newBirthDate" placeholder="Date de naissance"/><br>
+            <input type="text" id="newAdress" placeholder="Adresse" /><br>
+            <input type="text" id="newTel" placeholder="Telephone" /><br>
+            <input type="email" id="newEmail" placeholder="Email"/><br>
+            <input type="password" id="newPswd" placeholder="Mot de passe" /><br>
+            <input type="password" id="pswdConfirm" placeholder="Confirmation" /><br>
+            <button id="createButton">
+                Inscription
+            </button><br><br>
+        </div>
     </body>
 </html>
