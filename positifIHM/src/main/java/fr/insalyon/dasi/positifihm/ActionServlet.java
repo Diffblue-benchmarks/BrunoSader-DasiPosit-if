@@ -11,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
+import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,36 +41,60 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            response.setContentType("application/json;charset=UTF-8");
             String todo = (String) request.getParameter("todo");
             Service s = new Service();
-            switch(todo) {
+            switch (todo) {
                 case "inscription":
-                String nom = (String) request.getParameter("surname");
-                String prenom = (String) request.getParameter("name");
-                String email = (String) request.getParameter("login");
-                String mdp = (String) request.getParameter("password");
-                String confirme = (String) request.getParameter("confirm");
-                String adresse = (String) request.getParameter("adress");
-                String tel = (String) request.getParameter("tel");
-                //String dateNaissance = (String)request.getParameter("birthday");
-                Date dateNaissance = new Date();
-                JsonObject jsonConnnected = new JsonObject();
-                if (mdp.equals(confirme)) {
-                    Client c = new Client(nom, prenom, mdp, email, tel, dateNaissance, adresse);
-                    boolean connected = s.sInscrire(c);
-                    jsonConnnected.addProperty("verified", true);
-                    jsonConnnected.addProperty("connected", connected);
-                } else {
-                    jsonConnnected.addProperty("verified", false);
-                    jsonConnnected.addProperty("connected", false);
-                }
-                JsonObject jsonContainer = new JsonObject();
-                jsonContainer.add("log", jsonConnnected);
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                gson.toJson(jsonConnnected,out);
-                break;
+                    String nom = (String) request.getParameter("surname");
+                    String prenom = (String) request.getParameter("name");
+                    String email = (String) request.getParameter("email");
+                    String mdp = (String) request.getParameter("password");
+                    String confirme = (String) request.getParameter("confirm");
+                    String adresse = (String) request.getParameter("adress");
+                    String tel = (String) request.getParameter("tel");
+                    //String dateNaissance = (String)request.getParameter("birthday");
+                    Date dateNaissance = new Date();
+                    JsonObject jsonConnnected = new JsonObject();
+                    if (mdp.equals(confirme)) {
+                        Client c = new Client(nom, prenom, mdp, email, tel, dateNaissance, adresse);
+                        boolean connected = s.sInscrire(c);
+                        jsonConnnected.addProperty("verified", true);
+                        jsonConnnected.addProperty("connected", connected);
+                    } else {
+                        jsonConnnected.addProperty("verified", false);
+                        jsonConnnected.addProperty("connected", false);
+                    }
+                    JsonObject jsonContainer = new JsonObject();
+                    jsonContainer.add("log", jsonConnnected);
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    gson.toJson(jsonConnnected, out);
+                    break;
+                case "connecter":
+                    String myemail = (String) request.getParameter("login");
+                    String mymdp = (String) request.getParameter("password");
+                    JsonObject jsonmyConnnection = new JsonObject();
+                    Personne p = s.seConnecter(myemail, mymdp);
+                    if (p == null) {
+                        jsonmyConnnection.addProperty("exists", false);
+                        Gson mygson = new GsonBuilder().setPrettyPrinting().create();
+                        mygson.toJson(jsonmyConnnection,out);
+                    } else {
+                        jsonmyConnnection.addProperty("exists", true);
+                        JsonArray jsonArrayPersonnes = new JsonArray();
+                        JsonObject jsonPers = new JsonObject();
+                        jsonPers.addProperty("id", p.getId());
+                        jsonPers.addProperty("nom", p.getNom());
+                        jsonPers.addProperty("prenom", p.getPrenom());
+                        jsonPers.addProperty("mail", p.getEmail());
+                        jsonPers.addProperty("password", p.getMotDePasse());
+                        jsonArrayPersonnes.add(jsonPers);
+                        jsonmyConnnection.add("personne", jsonArrayPersonnes);
+                        Gson mygson = new GsonBuilder().setPrettyPrinting().create();
+                        mygson.toJson(jsonmyConnnection,out);
+                    }
+                    break;
             }
         }
     }

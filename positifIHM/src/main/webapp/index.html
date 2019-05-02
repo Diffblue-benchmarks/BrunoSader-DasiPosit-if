@@ -26,11 +26,10 @@
                 }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
 
                     // ici votre code...
-                    // 
-                    // si connexion ok, aller sur la page suivante :
-                    window.location = "maPageSuivante.html";
-                    // si connexion pas ok afficher un texte dans la div #message :
-                    $('#message').html('Echec de la connexion');
+                    if(response.exists){
+                        window.location = "maPageSuivante.html";
+                        alert("Welcome "+response.personne.prenom)
+                    }else alert("Erreur lors de la connection");
 
                 }).fail(function (error) { // Appel KO => erreur a gérer
 
@@ -136,7 +135,7 @@
     <body background="background.jpg">
         <div>
             <titre>Posit'IF</titre>
-            <input type="email" id="myEmail" placeholder="Email"/><br>
+            <input type="text" id="myEmail" placeholder="Email"/><br>
             <input type="password" id="myPswd" placeholder="Mot de passe" /><br>
             <button id="connexionButton">
                 Connexion
@@ -148,7 +147,7 @@
             <input type="text" id="newBirthDate" placeholder="Date de naissance"/><br>
             <input type="text" id="newAdress" placeholder="Adresse" /><br>
             <input type="text" id="newTel" placeholder="Telephone" /><br>
-            <input type="email" id="newEmail" placeholder="Email"/><br>
+            <input type="text" id="newEmail" placeholder="Email"/><br>
             <input type="password" id="newPswd" placeholder="Mot de passe" /><br>
             <input type="password" id="pswdConfirm" placeholder="Confirmation" /><br>
             <button id="createButton">
