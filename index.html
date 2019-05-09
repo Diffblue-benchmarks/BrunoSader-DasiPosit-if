@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<!-- https://codepen.io/ehermanson/pen/KwKWEv -->
+<!-- http://www.css-faciles.com/bloc-en-ligne.php -->
+
+<html>
+    <head>
+        <title> PositIF </title>
+        <meta charset="UTF-8">
+
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <!-- <style>
+            /* Feuille de Style CSS (dans la page) */
+            #message { margin: 25px; padding: 10px; border-radius: 10px; border: 2px solid violet; }
+            button.joli-bouton { padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+        </style> -->
+        <style type="text/css">
+            
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                background: url(http://iwallpapers2.free.fr/images/Espace/Espace_etoiles_-_1920x1080.jpg) no-repeat center fixed;
+                background-size: cover; /* version standardisée */
+            }      
+         
+            h1 {
+                color: white;
+                text-align:center;
+                font: italic small-caps bold 60px/2 cursive;
+            }
+
+            h2 {
+                color: white;
+                text-align:center;
+                font: 2em Comic Sans MS, Comic Sans, cursive
+            }
+            
+            .form {
+                background-color:rgba(0,191,255,0.5); /* #00BFFF deepSkyBlue */
+                line-height: 2;
+                border-style: solid;
+                border-radius:20px;
+                box-shadow:0 4px 10px 4px black;
+                opacity: 0.5;
+                /* Texte */
+                list-style:none;
+                padding: 30px;
+                opacity: 1;
+            }
+
+            #alignement {
+                /* Pour centrer les objets et qu'ils s'adaptent à la fenêtre */
+                float:left;
+                text-align:center;
+                width: 33%;
+                padding: 3% 3%; /* Ecart aux 4 coins avec le reste */
+                transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+                margin: 50vh auto; /* poussé de la moitié de hauteur de viewport
+                                  et espacé régulièrement en largeur */ 
+            }
+            
+            .block {
+                
+                
+                /* &:after {
+                  content: "";
+                  display: table;
+                  clear: both;
+                }
+                li a {
+                  display:block;
+                  text-decoration:none;
+                  padding:15px;
+                  background:rgba(grey,.25);
+                  color:grey;
+                  font-size:20px;
+                  float:left;
+                  width:50%;
+                  text-align:center;
+                  cursor:pointer;
+                  transition:.5s ease;
+                  &:hover {
+                    background:black;
+                    color:white;
+                  }
+                }
+                .active a {
+                  background:green;
+                  color:white;
+                } */
+            }
+
+        </style>
+    </head>
+
+    <body>
+                
+        <div class="form" id="alignement">
+                <h2>Se Connecter</h2>
+                <input type="email" id="champ-login" name="login" placeholder="Email" required autocomplete="on" /><br>
+                <input type="password" id="champ-password" name="password" placeholder="Mot de passe" /><br>
+                <button id="bouton-connexion" class="joli-bouton"> Connexion </button>  
+        </div> 
+        
+        <div id="alignement">
+            <h1> Posit'IF </h1>
+            <img src="https://scontent-cdt1-1.xx.fbcdn.net/v/t1.15752-9/59717241_412642705983765_7967483046423166976_n.png?_nc_cat=111&_nc_ht=scontent-cdt1-1.xx&oh=da5551c3c01555c2ead513ee492912a7&oe=5D6973A7" 
+                 width="80%"
+            />
+            <h2> Ouvrez les yeux sur votre vie </h2>
+        </div>
+        
+        <div class="form" id="alignement">
+                <h2> S'Inscrire </h2>
+                <input type="text" id="champ-nom" name="nom" placeholder="Nom" /><br>
+                <input type="text" id="champ-prenom" name="prenom" placeholder="Prénom" /><br>
+                <input type="date" id="champ-dateNaissance" name="dateNaissance"  /><br>
+                <input type="text" id="champ-adresse" name="adresse" placeholder="Adresse"/><br>
+                <input type="text" id="champ-tel" name="tel" placeholder="Téléphone" /><br>
+                <input type="text" id="champ-password" name="password" placeholder="Mot de Passe" /><br>
+                <input type="password" id="champ-confirmation" name="confirmation" placeholder="Confirmation" /><br>
+                <button id="bouton-connexion" class="joli-bouton"> Inscription </button>   
+        </div>
+
+        <script>
+
+            function connexion() {
+
+                var champLogin = $('#champ-login').val();
+                var champPassword = $('#champ-password').val();
+
+                // Message d'information dans la div #message :
+                $('#message').html('Connexion en cours...');
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'connecter',
+                        login: champLogin,
+                        password: champPassword
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+
+                    // ici votre code...
+                    // 
+                    // si connexion ok, aller sur la page suivante :
+                    window.location = "maPageSuivante.html";
+                    // si connexion pas ok afficher un texte dans la div #message :
+                    $('#message').html('Echec de la connexion');
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+
+                });
+            }
+
+            $(document).ready(function () {
+
+                console.log('Page chargee => Debut du Script');
+
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#bouton-connexion').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+
+                    // appel de la fonction connexion
+                    connexion();
+
+                });
+
+            });
+
+            function inscription() {
+
+                var champNom = $('#champ-nom').val();
+                var champPrenom = $('#champ-prenom').val();
+                var champDateNaissance = $('#champ-dateNaissance').val();
+                var champAdresse = $('#champ-adresse').val();
+                var champTel = $('#champ-tel').val();
+                var champPassword = $('#champ-password').val();
+                var champConfirmation = $('#champ-confirmation').val();
+
+                // Message d'information dans la div #message :
+                $('#message').html('Connexion en cours...');
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'connecter',
+                        login: champLogin,
+                        password: champPassword
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+
+                    // ici votre code...
+                    // 
+                    // si connexion ok, aller sur la page suivante :
+                    window.location = "maPageSuivante.html";
+                    // si connexion pas ok afficher un texte dans la div #message :
+                    $('#message').html('Echec de la connexion');
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+
+                });
+            }
+
+            $(document).ready(function () {
+
+                console.log('Page chargee => Debut du Script');
+
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#bouton-connexion').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+
+                    // appel de la fonction connexion
+                    connexion();
+
+                });
+
+            });
+
+        </script>
+    </body>
+
+</html>
