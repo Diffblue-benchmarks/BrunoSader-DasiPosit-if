@@ -11,6 +11,30 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>Mediums</div>
+        <script>
+            function ajouter(medium) {
+                $("#liste-mediums").append(
+                        '<li><a href="detail.html?id=' + medium.id + '">' + medium.nom + ' ' + medium.descriptif + '</li>'
+                        );
+            }
+            $(document).ready(function () {
+                $.ajax({
+                    url: './ActionServlet', method: 'POST',
+                    data: {
+                        action: 'consulterMediums'
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    $('#liste-mediums').empty();
+                    var mediums = data.Mediums;
+                    for (var i = 0; i < mediums.length; i++) {
+                        ajouter(mediums[i]);
+                    }
+                });
+            });
+        </script>
+        <h1>Liste des mediums</h1>
+        <ul id="liste-mediums">
+        </ul>
     </body>
 </html>

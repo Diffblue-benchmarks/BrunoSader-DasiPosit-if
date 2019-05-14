@@ -6,6 +6,30 @@ and open the template in the editor.
 -->
 <html>
     <head>
+        <script>
+
+            function loadHistory() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'historique',
+                    },
+                    dataType: 'json'        // Type de retour attendu
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+
+            $(document).ready(function () {
+                loadHistory();
+            }
+        </script>
         <title>Historique</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

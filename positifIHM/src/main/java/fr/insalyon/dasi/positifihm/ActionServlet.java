@@ -11,16 +11,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
+import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,6 +46,7 @@ public class ActionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession(true);
             String todo = (String) request.getParameter("todo");
             Service s = new Service();
             switch (todo) {
@@ -79,8 +83,9 @@ public class ActionServlet extends HttpServlet {
                     if (p == null) {
                         jsonmyConnnection.addProperty("exists", false);
                         Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                        mygson.toJson(jsonmyConnnection,out);
+                        mygson.toJson(jsonmyConnnection, out);
                     } else {
+                        session.setAttribute("client", p);
                         jsonmyConnnection.addProperty("exists", true);
                         JsonArray jsonArrayPersonnes = new JsonArray();
                         JsonObject jsonPers = new JsonObject();
@@ -92,8 +97,26 @@ public class ActionServlet extends HttpServlet {
                         jsonArrayPersonnes.add(jsonPers);
                         jsonmyConnnection.add("personne", jsonArrayPersonnes);
                         Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                        mygson.toJson(jsonmyConnnection,out);
+                        mygson.toJson(jsonmyConnnection, out);
                     }
+                    break;
+                case "historique":
+
+                    break;
+                case "consulterMediums":
+                    List<Medium> listeMediums = s.obtenirTousMediums();
+                    JsonArray jsonArrayMediums = new JsonArray();
+                    for (Medium unMedium : listeMediums) {
+                        JsonObject jsonPers = new JsonObject();
+                        jsonPers.addProperty("id", unMedium.getId());
+                        jsonPers.addProperty("nom", unMedium.getNom());
+                        jsonPers.addProperty("descriptif", unMedium.getDescriptif());
+                        jsonArrayMediums.add(jsonPers);
+                    }
+                    JsonObject jsonMediumContainer = new JsonObject();
+                    jsonMediumContainer.add("Mediums", jsonArrayMediums);
+                    Gson gsonMedium = new GsonBuilder().setPrettyPrinting().create();
+                    gsonMedium.toJson(jsonMediumContainer, out);
                     break;
             }
         }
