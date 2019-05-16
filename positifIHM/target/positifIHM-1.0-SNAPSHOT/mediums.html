@@ -9,6 +9,8 @@ and open the template in the editor.
         <title>Mediums</title>
         <meta charset="UTF-8">
         
+        <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
+        
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -18,14 +20,14 @@ and open the template in the editor.
         <script>
             function ajouter(medium) {
                 $("#liste-mediums").append(
-                        '<li><a href="detail.html?id=' + medium.id + '">' + medium.nom + ' ' + medium.descriptif + '</li>'
+                        '<li><a href="mediums.html?id=' + medium.id + '">' + medium.nom + ' ' + medium.descriptif + '</li>'
                         );
             }
             $(document).ready(function () {
                 $.ajax({
                     url: './ActionServlet', method: 'POST',
                     data: {
-                        action: 'consulterMediums'
+                        todo: 'consulterMediums'
                     },
                     dataType: 'json'
                 }).done(function (data) {
@@ -39,19 +41,23 @@ and open the template in the editor.
         </script>
         
         <div id="Liens">
-            <a href="accueilClient.html"> Accueil </a>
-            <a href="monprofil.html"> Profil </a>
-            <a href="mediums.html"> Mediums </a>
-            <a href="monhistorique.html"> Historique </a>
-            <a href="index.html"> Déconnexion </a>
+            
+            <div id="liens">
+                <a href="accueilClient.html"> Accueil </a>
+                <a href="monprofil.html"> Profil </a>
+                <a href="mediums.html"> Mediums </a>
+                <a href="monhistorique.html"> Historique </a>
+                <a href="index.html"> Déconnexion </a>
+            </div>
+            
         </div>
+
         
         <div class=form id="alignement">
-            <p> YO </p>
+            <h2> Nos Mediums </h2>
+            <ul id="liste-mediums">
+            </ul>
         </div>
-        
-        <h1>Liste des mediums</h1>
-        <ul id="liste-mediums">
-        </ul>
+
     </body>
 </html>

@@ -6,12 +6,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
+import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -45,6 +48,9 @@ public class ActionServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             String todo = (String) request.getParameter("todo");
             Service s = new Service();
+            Client monClient;
+            JsonObject jsonPers = new JsonObject();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh");
             switch (todo) {
                 case "inscription":
                     String nom = (String) request.getParameter("surname");
@@ -77,38 +83,53 @@ public class ActionServlet extends HttpServlet {
                     String mymdp = (String) request.getParameter("password");
                     JsonObject jsonmyConnnection = new JsonObject();
                     Personne p = s.seConnecter(myemail, mymdp);
-                    
+
                     if (p == null) {
                         jsonmyConnnection.addProperty("client", false);
                         jsonmyConnnection.addProperty("employe", false);
                         Gson mygson = new GsonBuilder().setPrettyPrinting().create();
                         mygson.toJson(jsonmyConnnection, out);
                     } else {
-                        session.setAttribute("CONNECTE", p);
+                        session.setAttribute("personneConnectee", p);
                         Client client = s.getClientParId(p.getId());
                         if (client != null) {
                             jsonmyConnnection.addProperty("client", true);
-                            
+
                         } else {
                             jsonmyConnnection.addProperty("employe", true);
                         }
                         JsonArray jsonArrayPersonnes = new JsonArray();
-                        JsonObject jsonPers = new JsonObject();
+                        jsonPers = new JsonObject();
                         jsonArrayPersonnes.add(jsonPers);
                         jsonmyConnnection.add("personne", jsonArrayPersonnes);
                         Gson mygson = new GsonBuilder().setPrettyPrinting().create();
                         mygson.toJson(jsonmyConnnection, out);
-                        
                     }
                     break;
                 case "historique":
-
+                    Personne pers = (Personne) session.getAttribute("personneConnectee");
+                    monClient = s.getClientParId(pers.getId());
+                    List<Conversation> mesConversations = monClient.getConversations();
+                    JsonArray jsonArrayConvo = new JsonArray();
+                    for (Conversation uneConvo : mesConversations) {
+                        JsonObject jsonConvo = new JsonObject();
+                        jsonConvo.addProperty("id", uneConvo.getId());
+                        jsonConvo.addProperty("employe", uneConvo.getEmploye().getNom());
+                        jsonConvo.addProperty("medium", uneConvo.getMedium().getNom());
+                        jsonConvo.addProperty("debut", dateFormat.format(uneConvo.getDebut()));
+                        jsonConvo.addProperty("fin", dateFormat.format(uneConvo.getFin()));
+                        jsonArrayConvo.add(jsonConvo);
+                    }
+                    JsonObject jsonConvoContainer = new JsonObject();
+                    jsonConvoContainer.add("Conversations", jsonArrayConvo);
+                    Gson gsonHistory = new GsonBuilder().setPrettyPrinting().create();
+                    gsonHistory.toJson(jsonConvoContainer, out);
                     break;
                 case "consulterMediums":
                     List<Medium> listeMediums = s.obtenirTousMediums();
                     JsonArray jsonArrayMediums = new JsonArray();
                     for (Medium unMedium : listeMediums) {
-                        JsonObject jsonPers = new JsonObject();
+                        jsonPers = new JsonObject();
                         jsonPers.addProperty("id", unMedium.getId());
                         jsonPers.addProperty("nom", unMedium.getNom());
                         jsonPers.addProperty("descriptif", unMedium.getDescriptif());
@@ -118,6 +139,25 @@ public class ActionServlet extends HttpServlet {
                     jsonMediumContainer.add("Mediums", jsonArrayMediums);
                     Gson gsonMedium = new GsonBuilder().setPrettyPrinting().create();
                     gsonMedium.toJson(jsonMediumContainer, out);
+                    break;
+                case "retournerClient":
+                    Personne per = (Personne) session.getAttribute("personneConnectee");
+                    monClient = s.getClientParId(per.getId());
+                    jsonPers = new JsonObject();
+                    jsonPers.addProperty("nom", monClient.getNom());
+                    jsonPers.addProperty("prenom", monClient.getPrenom());
+                    jsonPers.addProperty("zodiac", monClient.getSigneZodiaque());
+                    jsonPers.addProperty("chinois", monClient.getSigneChinois());
+                    jsonPers.addProperty("totem", monClient.getAnimal());
+                    jsonPers.addProperty("couleur", monClient.getCouleur());
+                    Gson mygson = new GsonBuilder().setPrettyPrinting().create();
+                    mygson.toJson(jsonPers, out);
+                    break;
+                case "deconnexion":
+                    jsonPers = new JsonObject();
+                    session.removeAttribute("personneConnectee");
+                    Gson decogson = new GsonBuilder().setPrettyPrinting().create();
+                    decogson.toJson(jsonPers, out);
                     break;
             }
         }
