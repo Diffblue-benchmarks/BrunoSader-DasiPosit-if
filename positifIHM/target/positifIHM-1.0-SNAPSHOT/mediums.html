@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Mediums</title>
+        <meta charset="UTF-8">
+        
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            function ajouter(medium) {
+                $("#liste-mediums").append(
+                        '<li><a href="detail.html?id=' + medium.id + '">' + medium.nom + ' ' + medium.descriptif + '</li>'
+                        );
+            }
+            $(document).ready(function () {
+                $.ajax({
+                    url: './ActionServlet', method: 'POST',
+                    data: {
+                        action: 'consulterMediums'
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    $('#liste-mediums').empty();
+                    var mediums = data.Mediums;
+                    for (var i = 0; i < mediums.length; i++) {
+                        ajouter(mediums[i]);
+                    }
+                });
+            });
+        </script>
+        
+        <div id="Liens">
+            <a href="accueilClient.html"> Accueil </a>
+            <a href="monprofil.html"> Profil </a>
+            <a href="mediums.html"> Mediums </a>
+            <a href="monhistorique.html"> Historique </a>
+            <a href="index.html"> Déconnexion </a>
+        </div>
+        
+        <div class=form id="alignement">
+            <p> YO </p>
+        </div>
+        
+        <h1>Liste des mediums</h1>
+        <ul id="liste-mediums">
+        </ul>
+    </body>
+</html>

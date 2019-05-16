@@ -58,8 +58,9 @@ public class ActionServlet extends HttpServlet {
                     String confirme = (String) request.getParameter("confirm");
                     String adresse = (String) request.getParameter("adress");
                     String tel = (String) request.getParameter("tel");
-                    //String dateNaissance = (String)request.getParameter("birthday");
+                    // String dateNaissance = (String)request.getParameter("birthday");
                     Date dateNaissance = new Date();
+                    // Date dateNaissance = (Date) request.getParameter("birthday");
                     JsonObject jsonConnnected = new JsonObject();
                     if (mdp.equals(confirme)) {
                         Client c = new Client(nom, prenom, mdp, email, tel, dateNaissance, adresse);
