@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Posit'IF Accueil</title>
+        <meta charset="UTF-8">
+
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <style>
+            /* Feuille de Style CSS (dans la page) */
+            #message { margin: 25px; padding: 10px; border-radius: 10px; border: 2px solid violet; }
+            h1 { color: black ; }
+        </style>
+    </head>
+    <body >
+        <h1> Positi'If </h1>
+        <div>
+            <button id="bouton-accueil" onclick="retournerClient()">Accueil</button>   
+        </div> 
+        <h1> Profil </h1>
+        <div>
+            <button id="bouton-mediums" onclick="retournerClient()">Mediums</button>   
+        </div> 
+        <div>
+            <button id="bouton-historique" onclick="retournerClient()">Historique</button>   
+        </div> 
+        <h1 id="prenom"> ... </h1>
+        <h1 id="nom"> ... </h1>
+        <h1> Signe du zodiac </h1>
+        <h1 id="zodiac"> ... </h1>
+        <h1> Animal Chinois </h1>
+        <h1 id="animalChinois"> ... </h1>
+        <h1> Couleur </h1>
+        <h1 id="couleur"> ... </h1>
+        <h1> Animal Totem </h1>
+        <h1 id="animal"> ... </h1>
+        <p id="insert"></p>
+        <div>
+            <button id="bouton-connexion" onclick="deconnexion()">Se Deconnecter</button>   
+        </div> 
+          <script>
+
+            function retournerClient() {  
+
+                // Message d'information dans la div #message :
+                $('#message').html('Connexion en cours...');
+                ;
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'retournerClient'
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+
+                    // ici votre code...
+                        $('#prenom').html(response.prenom);
+                        $('#nom').html(response.nom);
+                        $('#zodiac').html(response.prenom);
+                        $('#animalChinois').html(response.prenom);
+                        $('#couleur').html(response.prenom);
+                        $('#animal').html(response.prenom);
+                        
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+
+                });
+
+            }
+            
+            function deconnexion() {  
+
+                // Message d'information dans la div #message :
+                $('#message').html('Connexion en cours...');
+                ;
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'deconnexion'
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+
+                }).fail(function (error) { // Appel KO => erreur a gérer
+
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+
+                });
+
+            }
+
+            $(document).ready(function () {
+
+                console.log('Page chargee => Debut du Script');
+
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                
+                retournerClient();
+                
+                $('#bouton-connexion').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Deconnecter"');
+                       window.location = "index.html";
+                    // appel de la fonction connexion
+                    deconnexion();
+
+                });
+
+            });
+            
+        </script>
+    </body> 
+    
+</html>
