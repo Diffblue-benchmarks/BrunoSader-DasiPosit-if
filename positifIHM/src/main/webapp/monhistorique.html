@@ -6,6 +6,10 @@ and open the template in the editor.
 -->
 <html>
     <head>
+        <title>Historique</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script>
 
             function loadHistory() {
@@ -16,8 +20,14 @@ and open the template in the editor.
                         todo: 'historique',
                     },
                     dataType: 'json'        // Type de retour attendu
-                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
-
+                }).done(function (data) {  // Appel OK => "response" contient le resultat JSON
+                    $('#liste-convoss').empty();
+                    var convos = data.Conversations;
+                    console.log("les convos")
+                    console.log(convos)
+                    for (var i = 0; i < convos.length; i++) {
+                        ajouter(convos[i]);
+                    }
                 }).fail(function (error) { // Appel KO => erreur a gérer
                     // Popup avec message d'erreur :
                     alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
@@ -25,16 +35,24 @@ and open the template in the editor.
                     $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                 });
             }
+            
+            function ajouter(convos) {
+                $("#liste-convos").append(
+                        '<li><a href="detail.html?id=' + convos.id + '">' + convos.medium +'</li>'
+                        );
+            }
 
             $(document).ready(function () {
                 loadHistory();
-            }
+            })
         </script>
         <title>Historique</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>Historique</div>
+        <h1>Liste des consulations</h1>
+        <ul id="liste-convos">
+        </ul>
     </body>
 </html>
