@@ -68,34 +68,47 @@ public class ActionServlet extends HttpServlet {
                     action = new ActionInscription();
                     action.act(request);
                     serialisation = new SerialisationInscription();
-                    serialisation.serialize(request,response);
+                    serialisation.serialize(request, response);
                     break;
                 case "connecter":
                     action = new ActionConnexion();
                     action.act(request);
                     serialisation = new SerialisationConnexion();
-                    serialisation.serialize(request,response);
+                    serialisation.serialize(request, response);
                     break;
                 case "historique":
                     action = new ActionHistorique();
                     action.act(request);
                     serialisation = new SerialisationHistorique();
-                    serialisation.serialize(request,response);
+                    serialisation.serialize(request, response);
                     break;
                 case "consulterMediums":
                     List<Medium> listeMediums = s.obtenirTousMediums();
                     JsonArray jsonArrayMediums = new JsonArray();
                     for (Medium unMedium : listeMediums) {
                         jsonPers = new JsonObject();
-                        jsonPers.addProperty("id", unMedium.getId());
                         jsonPers.addProperty("nom", unMedium.getNom());
-                        jsonPers.addProperty("descriptif", unMedium.getDescriptif());
+                        jsonPers.addProperty("id", unMedium.getId());
                         jsonArrayMediums.add(jsonPers);
                     }
                     JsonObject jsonMediumContainer = new JsonObject();
                     jsonMediumContainer.add("Mediums", jsonArrayMediums);
                     Gson gsonMedium = new GsonBuilder().setPrettyPrinting().create();
                     gsonMedium.toJson(jsonMediumContainer, out);
+                    break;
+                case "caractMedium":
+                    String chaine = request.getParameter("myId");
+                    Long id = Long.parseLong(chaine);
+                    /*
+                    //Medium Med = s.getMediumParId(id);
+                    jsonPers = new JsonObject();
+                    jsonPers.addProperty("nom", Med.getNom());
+                    jsonPers.addProperty("desc", Med.getDescriptif());
+                    JsonObject jsonMediumContainerBis = new JsonObject();
+                    jsonMediumContainerBis.add("Medium", jsonPers);
+                    Gson gsonMediumBis = new GsonBuilder().setPrettyPrinting().create();
+                    gsonMediumBis.toJson(jsonMediumContainerBis, out);
+                    */
                     break;
                 case "retournerClient":
                     action = new ActionProfil();
