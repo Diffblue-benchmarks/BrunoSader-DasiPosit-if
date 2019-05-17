@@ -54,13 +54,13 @@ and open the template in the editor.
                     }).done(function (data) {
                         var medium = data.Medium;
                         $("#selectedMed").html(
-                            "Nom :" + medium.nom + "<br>" + medium.desc + "<br>"
+                            'Nom :' + medium.nom + '<br>' + medium.desc + '<br>'
+                            + '<button class="styled" type="button" onclick="caract('+medium.id+')">'
+                                +'Consulter tout de suite'
+                            +'</button>'
                         );
                     });
                 });
-            
-                
-                
             }
             
             
@@ -87,11 +87,10 @@ and open the template in the editor.
             <div id="selectedMed">
                 
             </div>
+            
         </div>
         
-        <button class="styled" type="button">
-            Consulter tout de suite
-        </button>
+
 
     </body>
 </html>
