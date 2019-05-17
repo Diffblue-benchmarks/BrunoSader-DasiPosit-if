@@ -13,11 +13,13 @@ import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import fr.insalyon.dasi.positifihm.action.Action;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
+import fr.insalyon.dasi.positifihm.action.ActionConsulterMediums;
 import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.action.ActionProfil;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationConsulterMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
@@ -83,24 +85,15 @@ public class ActionServlet extends HttpServlet {
                     serialisation.serialize(request, response);
                     break;
                 case "consulterMediums":
-                    List<Medium> listeMediums = s.obtenirTousMediums();
-                    JsonArray jsonArrayMediums = new JsonArray();
-                    for (Medium unMedium : listeMediums) {
-                        jsonPers = new JsonObject();
-                        jsonPers.addProperty("nom", unMedium.getNom());
-                        jsonPers.addProperty("id", unMedium.getId());
-                        jsonArrayMediums.add(jsonPers);
-                    }
-                    JsonObject jsonMediumContainer = new JsonObject();
-                    jsonMediumContainer.add("Mediums", jsonArrayMediums);
-                    Gson gsonMedium = new GsonBuilder().setPrettyPrinting().create();
-                    gsonMedium.toJson(jsonMediumContainer, out);
+                    action = new ActionConsulterMediums();
+                    action.act(request);
+                    serialisation = new SerialisationConsulterMediums();
+                    serialisation.serialize(request, response);
                     break;
                 case "caractMedium":
                     String chaine = request.getParameter("myId");
                     Long id = Long.parseLong(chaine);
-                    /*
-                    //Medium Med = s.getMediumParId(id);
+                    Medium Med = s.getMediumParId(id);
                     jsonPers = new JsonObject();
                     jsonPers.addProperty("nom", Med.getNom());
                     jsonPers.addProperty("desc", Med.getDescriptif());
@@ -108,7 +101,6 @@ public class ActionServlet extends HttpServlet {
                     jsonMediumContainerBis.add("Medium", jsonPers);
                     Gson gsonMediumBis = new GsonBuilder().setPrettyPrinting().create();
                     gsonMediumBis.toJson(jsonMediumContainerBis, out);
-                    */
                     break;
                 case "retournerClient":
                     action = new ActionProfil();

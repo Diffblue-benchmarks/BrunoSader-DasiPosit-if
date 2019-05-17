@@ -3,30 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.insalyon.dasi.positifihm.serialisation;
+package fr.insalyon.dasi.positifihm.action;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import fr.insalyon.dasi.positif.metier.modele.Client;
-import fr.insalyon.dasi.positif.metier.modele.Personne;
+import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author brunosader
  */
-@WebServlet(name = "SerialisationConnexion", urlPatterns = {"/SerialisationConnexion"})
-public class SerialisationConnexion extends Serialisation {
+@WebServlet(name = "ActionConsulterMediums", urlPatterns = {"/ActionConsulterMediums"})
+public class ActionConsulterMediums extends Action {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +40,10 @@ public class SerialisationConnexion extends Serialisation {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SerialisationConnexion</title>");
+            out.println("<title>Servlet ActionConsulterMediums</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SerialisationConnexion at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ActionConsulterMediums at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -93,13 +88,10 @@ public class SerialisationConnexion extends Serialisation {
         return "Short description";
     }// </editor-fold>
 
-    public void serialize(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try (PrintWriter out = response.getWriter()) {
-            JsonObject jsonmyConnnection = new JsonObject();
-            jsonmyConnnection.addProperty("client",(boolean) request.getAttribute("client"));
-            jsonmyConnnection.addProperty("employe",(boolean) request.getAttribute("employe"));
-            Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-            mygson.toJson(jsonmyConnnection, out);
-        }
+    public void act(HttpServletRequest request)
+    {
+        Service s = new Service();
+        List<Medium> listeMediums = s.obtenirTousMediums();
+        request.setAttribute("listeMediums",listeMediums);
     }
 }

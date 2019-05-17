@@ -9,24 +9,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import fr.insalyon.dasi.positif.metier.modele.Client;
-import fr.insalyon.dasi.positif.metier.modele.Personne;
-import fr.insalyon.dasi.positif.metier.service.Service;
+import fr.insalyon.dasi.positif.metier.modele.Medium;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author brunosader
  */
-@WebServlet(name = "SerialisationConnexion", urlPatterns = {"/SerialisationConnexion"})
-public class SerialisationConnexion extends Serialisation {
+@WebServlet(name = "SerialisationConsulterMediums", urlPatterns = {"/SerialisationConsulterMediums"})
+public class SerialisationConsulterMediums extends Serialisation {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +43,10 @@ public class SerialisationConnexion extends Serialisation {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SerialisationConnexion</title>");
+            out.println("<title>Servlet SerialisationConsulterMediums</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SerialisationConnexion at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SerialisationConsulterMediums at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -95,11 +93,20 @@ public class SerialisationConnexion extends Serialisation {
 
     public void serialize(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {
-            JsonObject jsonmyConnnection = new JsonObject();
-            jsonmyConnnection.addProperty("client",(boolean) request.getAttribute("client"));
-            jsonmyConnnection.addProperty("employe",(boolean) request.getAttribute("employe"));
-            Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-            mygson.toJson(jsonmyConnnection, out);
+            JsonObject jsonPers = new JsonObject();
+            List<Medium> listeMediums = (List<Medium>) request.getAttribute("listeMediums");
+            JsonArray jsonArrayMediums = new JsonArray();
+            for (Medium unMedium : listeMediums) {
+                jsonPers = new JsonObject();
+                jsonPers.addProperty("nom", unMedium.getNom());
+                jsonPers.addProperty("id", unMedium.getId());
+                jsonArrayMediums.add(jsonPers);
+            }
+            JsonObject jsonMediumContainer = new JsonObject();
+            jsonMediumContainer.add("Mediums", jsonArrayMediums);
+            Gson gsonMedium = new GsonBuilder().setPrettyPrinting().create();
+            gsonMedium.toJson(jsonMediumContainer, out);
         }
     }
+
 }
