@@ -11,6 +11,12 @@ import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
+import fr.insalyon.dasi.positifihm.action.Action;
+import fr.insalyon.dasi.positifihm.action.ActionConnexion;
+import fr.insalyon.dasi.positifihm.action.ActionInscription;
+import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -51,60 +57,20 @@ public class ActionServlet extends HttpServlet {
             Client monClient;
             JsonObject jsonPers = new JsonObject();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh");
+            Action action;
+            Serialisation serialisation;
             switch (todo) {
                 case "inscription":
-                    String nom = (String) request.getParameter("surname");
-                    String prenom = (String) request.getParameter("name");
-                    String email = (String) request.getParameter("email");
-                    String mdp = (String) request.getParameter("password");
-                    String confirme = (String) request.getParameter("confirm");
-                    String adresse = (String) request.getParameter("adress");
-                    String tel = (String) request.getParameter("tel");
-                    // String dateNaissance = (String)request.getParameter("birthday");
-                    Date dateNaissance = new Date();
-                    // Date dateNaissance = (Date) request.getParameter("birthday");
-                    JsonObject jsonConnnected = new JsonObject();
-                    if (mdp.equals(confirme)) {
-                        Client c = new Client(nom, prenom, mdp, email, tel, dateNaissance, adresse);
-                        boolean connected = s.sInscrire(c);
-                        jsonConnnected.addProperty("verified", true);
-                        jsonConnnected.addProperty("connected", connected);
-                    } else {
-                        jsonConnnected.addProperty("verified", false);
-                        jsonConnnected.addProperty("connected", false);
-                    }
-                    JsonObject jsonContainer = new JsonObject();
-                    jsonContainer.add("log", jsonConnnected);
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    gson.toJson(jsonConnnected, out);
+                    action = new ActionInscription();
+                    action.act(request);
+                    serialisation = new SerialisationInscription();
+                    serialisation.serialize(request,response);
                     break;
                 case "connecter":
-                    String myemail = (String) request.getParameter("login");
-                    String mymdp = (String) request.getParameter("password");
-                    JsonObject jsonmyConnnection = new JsonObject();
-                    Personne p = s.seConnecter(myemail, mymdp);
-
-                    if (p == null) {
-                        jsonmyConnnection.addProperty("client", false);
-                        jsonmyConnnection.addProperty("employe", false);
-                        Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                        mygson.toJson(jsonmyConnnection, out);
-                    } else {
-                        session.setAttribute("personneConnectee", p);
-                        Client client = s.getClientParId(p.getId());
-                        if (client != null) {
-                            jsonmyConnnection.addProperty("client", true);
-
-                        } else {
-                            jsonmyConnnection.addProperty("employe", true);
-                        }
-                        JsonArray jsonArrayPersonnes = new JsonArray();
-                        jsonPers = new JsonObject();
-                        jsonArrayPersonnes.add(jsonPers);
-                        jsonmyConnnection.add("personne", jsonArrayPersonnes);
-                        Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                        mygson.toJson(jsonmyConnnection, out);
-                    }
+                    action = new ActionConnexion();
+                    action.act(request);
+                    serialisation = new SerialisationConnexion();
+                    serialisation.serialize(request,response);
                     break;
                 case "historique":
                     Personne pers = (Personne) session.getAttribute("personneConnectee");
