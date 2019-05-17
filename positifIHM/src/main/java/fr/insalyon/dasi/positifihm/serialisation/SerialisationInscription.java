@@ -94,6 +94,8 @@ public class SerialisationInscription extends Serialisation {
             JsonObject jsonConnnected = new JsonObject();
             jsonConnnected.addProperty("verified",(boolean) request.getAttribute("verified"));
             jsonConnnected.addProperty("connected",(boolean) request.getAttribute("connected"));
+            request.removeAttribute("verified");
+            request.removeAttribute("connected");
             JsonObject jsonContainer = new JsonObject();
             jsonContainer.add("log", jsonConnnected);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();

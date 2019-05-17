@@ -45,7 +45,7 @@ public class SerialisationConnexion extends Serialisation {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SerialisationConnexion</title>");            
+            out.println("<title>Servlet SerialisationConnexion</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SerialisationConnexion at " + request.getContextPath() + "</h1>");
@@ -92,35 +92,15 @@ public class SerialisationConnexion extends Serialisation {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-   public void serialize(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    public void serialize(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {
             Service s = new Service();
-            HttpSession session = request.getSession(true);
             JsonObject jsonmyConnnection = new JsonObject();
-            Personne p = (Personne) request.getAttribute("personne");
-            request.removeAttribute("personne");
-            if (p == null) {
-                jsonmyConnnection.addProperty("client", false);
-                jsonmyConnnection.addProperty("employe", false);
-                Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                mygson.toJson(jsonmyConnnection, out);
-            } else {
-                session.setAttribute("personneConnectee", p);
-                Client client = s.getClientParId(p.getId());
-                if (client != null) {
-                    jsonmyConnnection.addProperty("client", true);
-
-                } else {
-                    jsonmyConnnection.addProperty("employe", true);
-                }
-                JsonArray jsonArrayPersonnes = new JsonArray();
-                JsonObject jsonPers = new JsonObject();
-                jsonArrayPersonnes.add(jsonPers);
-                jsonmyConnnection.add("personne", jsonArrayPersonnes);
-                Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                mygson.toJson(jsonmyConnnection, out);
-            }
+            jsonmyConnnection.addProperty("client",(boolean) request.getAttribute("client"));
+            jsonmyConnnection.addProperty("employe",(boolean) request.getAttribute("employe"));
+            Gson mygson = new GsonBuilder().setPrettyPrinting().create();
+            mygson.toJson(jsonmyConnnection, out);
         }
     }
 }
