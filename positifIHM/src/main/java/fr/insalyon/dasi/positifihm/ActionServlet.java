@@ -13,9 +13,11 @@ import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import fr.insalyon.dasi.positifihm.action.Action;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
+import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -73,23 +75,10 @@ public class ActionServlet extends HttpServlet {
                     serialisation.serialize(request,response);
                     break;
                 case "historique":
-                    Personne pers = (Personne) session.getAttribute("personneConnectee");
-                    monClient = s.getClientParId(pers.getId());
-                    List<Conversation> mesConversations = monClient.getConversations();
-                    JsonArray jsonArrayConvo = new JsonArray();
-                    for (Conversation uneConvo : mesConversations) {
-                        JsonObject jsonConvo = new JsonObject();
-                        jsonConvo.addProperty("id", uneConvo.getId());
-                        jsonConvo.addProperty("employe", uneConvo.getEmploye().getNom());
-                        jsonConvo.addProperty("medium", uneConvo.getMedium().getNom());
-                        jsonConvo.addProperty("debut", dateFormat.format(uneConvo.getDebut()));
-                        jsonConvo.addProperty("fin", dateFormat.format(uneConvo.getFin()));
-                        jsonArrayConvo.add(jsonConvo);
-                    }
-                    JsonObject jsonConvoContainer = new JsonObject();
-                    jsonConvoContainer.add("Conversations", jsonArrayConvo);
-                    Gson gsonHistory = new GsonBuilder().setPrettyPrinting().create();
-                    gsonHistory.toJson(jsonConvoContainer, out);
+                    action = new ActionHistorique();
+                    action.act(request);
+                    serialisation = new SerialisationHistorique();
+                    serialisation.serialize(request,response);
                     break;
                 case "consulterMediums":
                     List<Medium> listeMediums = s.obtenirTousMediums();
