@@ -15,10 +15,12 @@ import fr.insalyon.dasi.positifihm.action.Action;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
 import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
+import fr.insalyon.dasi.positifihm.action.ActionProfil;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -96,17 +98,10 @@ public class ActionServlet extends HttpServlet {
                     gsonMedium.toJson(jsonMediumContainer, out);
                     break;
                 case "retournerClient":
-                    Personne per = (Personne) session.getAttribute("personneConnectee");
-                    monClient = s.getClientParId(per.getId());
-                    jsonPers = new JsonObject();
-                    jsonPers.addProperty("nom", monClient.getNom());
-                    jsonPers.addProperty("prenom", monClient.getPrenom());
-                    jsonPers.addProperty("zodiac", monClient.getSigneZodiaque());
-                    jsonPers.addProperty("chinois", monClient.getSigneChinois());
-                    jsonPers.addProperty("totem", monClient.getAnimal());
-                    jsonPers.addProperty("couleur", monClient.getCouleur());
-                    Gson mygson = new GsonBuilder().setPrettyPrinting().create();
-                    mygson.toJson(jsonPers, out);
+                    action = new ActionProfil();
+                    action.act(request);
+                    serialisation = new SerialisationProfil();
+                    serialisation.serialize(request, response);
                     break;
                 case "deconnexion":
                     jsonPers = new JsonObject();
