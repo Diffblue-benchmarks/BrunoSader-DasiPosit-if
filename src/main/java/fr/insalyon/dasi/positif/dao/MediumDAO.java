@@ -1,9 +1,11 @@
 package fr.insalyon.dasi.positif.dao;
 
 
+import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * Le Data Access Object de Medium
@@ -28,5 +30,18 @@ public class MediumDAO {
     public static void modifier(Medium m) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.merge(m);
+    }
+    
+    public static  Medium obtenirMediumParId(long id) {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        try {
+            Query q = em.createQuery("SELECT p "
+                                   + "FROM Medium p "
+                                   + "WHERE p.id = :id");
+            q.setParameter("id", id);
+            return (Medium) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

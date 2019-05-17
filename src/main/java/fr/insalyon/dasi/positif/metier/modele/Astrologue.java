@@ -17,6 +17,9 @@ import javax.persistence.Id;
 public class Astrologue extends Medium implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     /**
      * La formation de l'astrologue.
@@ -62,11 +65,6 @@ public class Astrologue extends Medium implements Serializable {
     
     public void setPromotion(String promotion) {
         this.promotion = promotion;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
     }
 
     @Override

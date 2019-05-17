@@ -456,5 +456,12 @@ public class Service {
             return null;
         }
     }
+    
+    public Medium getMediumParId(Long id){
+        JpaUtil.creerEntityManager();
+        Medium med = MediumDAO.obtenirMediumParId(id);
+        JpaUtil.fermerEntityManager();
+        return med;
+    }
  
 }

@@ -17,7 +17,9 @@ import javax.persistence.Id;
 public class Voyant extends Medium implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     
     /**
      * La spécialité du Voyant.
@@ -43,10 +45,6 @@ public class Voyant extends Medium implements Serializable {
     }
     
 //******* GETTERS SETTERS *********/
-    @Override
-    public Long getId() {
-        return id;
-    }
 
     @Override
     public void setId(Long id) {
