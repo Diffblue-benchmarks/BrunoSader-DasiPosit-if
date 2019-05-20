@@ -2,22 +2,18 @@ package fr.insalyon.dasi.positifihm;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
-import fr.insalyon.dasi.positif.metier.modele.Client;
-import fr.insalyon.dasi.positif.metier.modele.Conversation;
-import fr.insalyon.dasi.positif.metier.modele.Employe;
-import fr.insalyon.dasi.positif.metier.modele.Medium;
-import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import fr.insalyon.dasi.positifihm.action.Action;
+import fr.insalyon.dasi.positifihm.action.ActionCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
 import fr.insalyon.dasi.positifihm.action.ActionConsulterMediums;
 import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.action.ActionProfil;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConsulterMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
@@ -25,10 +21,6 @@ import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,9 +52,6 @@ public class ActionServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             String todo = (String) request.getParameter("todo");
             Service s = new Service();
-            Client monClient;
-            JsonObject jsonPers = new JsonObject();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh");
             Action action;
             Serialisation serialisation;
             switch (todo) {
@@ -91,16 +80,10 @@ public class ActionServlet extends HttpServlet {
                     serialisation.serialize(request, response);
                     break;
                 case "caractMedium":
-                    String chaine = request.getParameter("myId");
-                    Long id = Long.parseLong(chaine);
-                    Medium Med = s.getMediumParId(id);
-                    jsonPers = new JsonObject();
-                    jsonPers.addProperty("nom", Med.getNom());
-                    jsonPers.addProperty("desc", Med.getDescriptif());
-                    JsonObject jsonMediumContainerBis = new JsonObject();
-                    jsonMediumContainerBis.add("Medium", jsonPers);
-                    Gson gsonMediumBis = new GsonBuilder().setPrettyPrinting().create();
-                    gsonMediumBis.toJson(jsonMediumContainerBis, out);
+                    action = new ActionCaracteristiqueMediums();
+                    action.act(request);
+                    serialisation = new SerialisationCaracteristiqueMediums();
+                    serialisation.serialize(request, response);
                     break;
                 case "retournerClient":
                     action = new ActionProfil();
@@ -109,7 +92,7 @@ public class ActionServlet extends HttpServlet {
                     serialisation.serialize(request, response);
                     break;
                 case "deconnexion":
-                    jsonPers = new JsonObject();
+                    JsonObject jsonPers = new JsonObject();
                     session.removeAttribute("personneConnectee");
                     Gson decogson = new GsonBuilder().setPrettyPrinting().create();
                     decogson.toJson(jsonPers, out);
