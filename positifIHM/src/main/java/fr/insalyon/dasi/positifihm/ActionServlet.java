@@ -7,6 +7,7 @@ import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import fr.insalyon.dasi.positifihm.action.Action;
 import fr.insalyon.dasi.positifihm.action.ActionCaracteristiqueMediums;
+import fr.insalyon.dasi.positifihm.action.ActionCommencerConsultation;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
 import fr.insalyon.dasi.positifihm.action.ActionConsulterMediums;
 import fr.insalyon.dasi.positifihm.action.ActionGenererVoyance;
@@ -92,8 +93,12 @@ public class ActionServlet extends HttpServlet {
                     serialisation.serialize(request, response);
                     break;
                 case "commencerConsultation":
-                    serialisation = new SerialisationRecupererPrediction();
-                    serialisation.serialize(request, response);
+                    action = new ActionCommencerConsultation();
+                    action.act(request);
+                    JsonObject jsonStart = new JsonObject();
+                    jsonStart.addProperty("done", true);
+                    Gson gsonStart = new GsonBuilder().setPrettyPrinting().create();
+                    gsonStart.toJson(jsonStart, out);
                     break;
                 case "retournerClient":
                     action = new ActionProfil();

@@ -92,7 +92,9 @@ public class ActionCommencerConsultation extends Action {
 
     public void act(HttpServletRequest request) {
         Service s = new Service();
-        Medium unMedium = s.getMediumParId(Long.parseLong(request.getParameter("mediumId")));
+        String chaine = request.getParameter("mediumId");
+        Long id = Long.parseLong(chaine);
+        Medium unMedium = s.getMediumParId(id);
         HttpSession session = request.getSession(true);
         Personne pers = (Personne) session.getAttribute("personneConnectee");
         Client monClient = s.getClientParId(pers.getId());

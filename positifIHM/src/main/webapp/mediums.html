@@ -55,7 +55,7 @@ and open the template in the editor.
                         var medium = data.Medium;
                         $("#selectedMed").html(
                                 'Nom :' + medium.nom + '<br>' + medium.desc + '<br>'
-                                + '<button class="styled" type="button" onclick="consultation(' + medium.id + ')">'
+                                + '<button id='+medium.id+' class="styled" type="button" onclick="consultation(this.id)">'
                                 + 'Consulter tout de suite'
                                 + '</button>'
                                 );
@@ -70,8 +70,14 @@ and open the template in the editor.
                         data: {
                             todo: 'commencerConsultation',
                             mediumId: id
-                        }
-                    })
+                        },
+                        dataType: 'json'
+                    }).done(function (response) {
+                        if(response.done)
+                        {
+                            alert("En attente qu'un medium accepte votre demande")
+                        } else  alert("Une erreur est survenue")
+                    });
                 });
             }
 

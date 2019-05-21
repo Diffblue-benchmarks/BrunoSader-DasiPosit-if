@@ -94,6 +94,7 @@ public class ActionCaracteristiqueMediums extends Action {
         Medium Med = s.getMediumParId(id);
         request.setAttribute("nom", Med.getNom());
         request.setAttribute("desc", Med.getDescriptif());
+        request.setAttribute("id", Med.getId());
     }
 
 }

@@ -93,8 +93,10 @@ public class SerialisationCaracteristiqueMediums extends Serialisation {
             JsonObject jsonPers = new JsonObject();
             jsonPers.addProperty("nom",(String) request.getAttribute("nom"));
             jsonPers.addProperty("desc",(String) request.getAttribute("desc"));
+            jsonPers.addProperty("id",(Long) request.getAttribute("id"));
             request.removeAttribute("nom");
             request.removeAttribute("desc");
+            request.removeAttribute("id");
             JsonObject jsonMediumContainer = new JsonObject();
             jsonMediumContainer.add("Medium", jsonPers);
             Gson gsonMedium = new GsonBuilder().setPrettyPrinting().create();

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -95,10 +96,11 @@ public class ActionGenererVoyance extends Action {
         int sante = Integer.parseInt(request.getParameter("sante"));
         int travail = Integer.parseInt(request.getParameter("travail"));
         Service s = new Service();
+        HttpSession session = request.getSession(true);
         Conversation convo = s.getConversationParId(idConvo);
         s.AccepterVoyance(convo);
         List<String> lesPredictions = s.ObtenirPredictions(convo.getClient(),amour,sante,travail);
-        request.setAttribute("lesPredictions",lesPredictions);
+        session.setAttribute("lesPredictions",lesPredictions);
     }
 
 }

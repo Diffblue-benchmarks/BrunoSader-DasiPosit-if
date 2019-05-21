@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -92,8 +93,9 @@ public class SerialisationRecupererPrediction extends Serialisation {
 
     public void serialize(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter out = response.getWriter()) {
-            List<String> mesPredictions = (List<String> ) request.getAttribute("mesPredicions");
-            request.removeAttribute("mesPredicions");
+            HttpSession session = request.getSession(true);
+            List<String> mesPredictions = (List<String>) session.getAttribute("lesPredictions");
+            session.removeAttribute("lesPredictions");
             JsonObject jsonPers = new JsonObject();
             JsonArray jsonArrayPredictions = new JsonArray();
             for (String unePrediction : mesPredictions) {
