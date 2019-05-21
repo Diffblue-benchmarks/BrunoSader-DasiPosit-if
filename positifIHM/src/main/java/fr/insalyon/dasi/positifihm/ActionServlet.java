@@ -91,6 +91,10 @@ public class ActionServlet extends HttpServlet {
                     serialisation = new SerialisationCaracteristiqueMediums();
                     serialisation.serialize(request, response);
                     break;
+                case "commencerConsultation":
+                    serialisation = new SerialisationRecupererPrediction();
+                    serialisation.serialize(request, response);
+                    break;
                 case "retournerClient":
                     action = new ActionProfil();
                     action.act(request);

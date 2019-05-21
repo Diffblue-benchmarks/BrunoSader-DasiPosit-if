@@ -8,9 +8,9 @@ and open the template in the editor.
     <head>
         <title>Mediums</title>
         <meta charset="UTF-8">
-        
+
         <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
-        
+
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -21,8 +21,8 @@ and open the template in the editor.
             /* Fonction pour ajouter les mediums de la BDD à la liste affichée */
             function ajouter(medium) {
                 $("#listeMediums").append(
-                    '<li onclick="caract('+medium.id+')">' + medium.nom +'</li>'
-                );
+                        '<li onclick="caract(' + medium.id + ')">' + medium.nom + '</li>'
+                        );
             }
             $(document).ready(function () {
                 $.ajax({
@@ -39,9 +39,9 @@ and open the template in the editor.
                     }
                 });
             });
-            
+
             /* Fonction pour afficher les propriétés de chaque medium quand on clique dessus */
-            
+
             function caract(id) {
                 $(document).ready(function () {
                     $.ajax({
@@ -54,18 +54,30 @@ and open the template in the editor.
                     }).done(function (data) {
                         var medium = data.Medium;
                         $("#selectedMed").html(
-                            'Nom :' + medium.nom + '<br>' + medium.desc + '<br>'
-                            + '<button class="styled" type="button" onclick="caract('+medium.id+')">'
-                                +'Consulter tout de suite'
-                            +'</button>'
-                        );
+                                'Nom :' + medium.nom + '<br>' + medium.desc + '<br>'
+                                + '<button class="styled" type="button" onclick="consultation(' + medium.id + ')">'
+                                + 'Consulter tout de suite'
+                                + '</button>'
+                                );
                     });
                 });
             }
-            
-            
+
+            function consultation(id) {
+                $(document).ready(function () {
+                    $.ajax({
+                        url: './ActionServlet', method: 'POST',
+                        data: {
+                            todo: 'commencerConsultation',
+                            mediumId: id
+                        }
+                    })
+                });
+            }
+
+
         </script>
-        
+
         <div id="liens">
             <a href="accueilClient.html"> Accueil </a>
             <a href="monprofil.html"> Profil </a>
@@ -74,22 +86,22 @@ and open the template in the editor.
             <a href="index.html"> Déconnexion </a>
         </div>
 
-        
+
         <div class=form id="alignement">
             <h2> Nos Mediums </h2>
             <ul id="listeMediums">
             </ul>
         </div>
-        
+
         <div class=form id="alignement">
             <h2> Caractéristiques </h2>
-            
+
             <div id="selectedMed">
-                
+
             </div>
-            
+
         </div>
-        
+
 
 
     </body>
