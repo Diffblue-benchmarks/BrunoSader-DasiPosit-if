@@ -14,6 +14,7 @@ import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.action.ActionProfil;
 import fr.insalyon.dasi.positifihm.action.ActionProfilEmployer;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationAccueilEmploye;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConsulterMediums;
@@ -97,6 +98,12 @@ public class ActionServlet extends HttpServlet {
                     action = new ActionProfilEmployer();
                     action.act(request);
                     serialisation = new SerialisationProfilEmploye();
+                    serialisation.serialize(request, response);
+                    break;
+                case "accueilEmploye":
+                    action = new ActionProfilEmployer();
+                    action.act(request);
+                    serialisation = new SerialisationAccueilEmploye();
                     serialisation.serialize(request, response);
                     break;
                 case "deconnexion":

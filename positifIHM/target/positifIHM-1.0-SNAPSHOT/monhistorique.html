@@ -21,10 +21,8 @@ and open the template in the editor.
                     },
                     dataType: 'json'        // Type de retour attendu
                 }).done(function (data) {  // Appel OK => "response" contient le resultat JSON
-                    $('#liste-convoss').empty();
+                    $('#liste-convos').empty();
                     var convos = data.Conversations;
-                    console.log("les convos")
-                    console.log(convos)
                     for (var i = 0; i < convos.length; i++) {
                         ajouter(convos[i]);
                     }

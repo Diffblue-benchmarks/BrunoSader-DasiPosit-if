@@ -8,6 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     </head>
 
@@ -23,15 +24,56 @@
             <a href="index.html"> Déconnexion </a>
         </div>
 
+        <h1> Bonjour </h1>
+        <h1 id="prenom"> ... </h1>
+
         <div class="form" id="alignement">
-            <ul>
-                mettre les convos
-                <button>Accepter Voyance</button>
-            </ul>
+            <ul id="liste-convos"></ul>
         </div> 
 
-        <img id="profileIMG" src="https://img.icons8.com/ios/100/000000/user.png" alt="my profile" onclick="onMyProfileClick()"/>
-        <img id="mediumsIMG" src="https://img.icons8.com/material/96/000000/visible.png" alt="mediums" onclick="onMediumsClick()"/>
-        <img id="historyIMG" src="https://img.icons8.com/material-two-tone/96/000000/time-machine.png" alt="my history" onclick="onMyHistoryClick()"/>
+        <script>
+            $(document).ready(function () {
+                loadConversationEmploye();
+            })
+
+            function loadConversationEmploye() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'accueilEmploye',
+                    },
+                    dataType: 'json'        // Type de retour attendu
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    if (response.bool === true) {
+                        $('#prenom').html(response.prenom);
+                        console.log(response.prenom);
+                        $('#liste-convos').empty();
+                        var convos = response.convos;
+                        for (var i = 0; i < convos.length; i++) {
+                            ajouter(convos[i]);
+                        }
+                    } else {
+                        $("#liste-convos").append('<h2>Aucune conversation pour vous</h2>');
+                    }
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+
+            function ajouter(convos) {
+                $("#liste-convos").append(
+                        '<li>Client:' + convos.client +' Medium: '+convos.medium +'<button id='+convos.id+' onClick="onAccepterVoyance(this.id)">Accepter Voyance</button></li>'
+                        );
+            }
+            
+            function onAccepterVoyance(id) {
+                window.location = "generateurVoyance.html?id="+id;
+            }
+
+        </script>
     </body>
 </html>
