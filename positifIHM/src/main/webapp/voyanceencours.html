@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Voyance en cours...</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        <h2 id="liste-predictions"></h2>
+        <button onClick="onTerminerVoyance()">Terminer la voyance</button>
+        <script>
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var id = url.searchParams.get("id");
+
+            $(document).ready(function () {
+                afficherPrediction()
+            })
+            
+            function afficherPrediction() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'afficherPrediction',
+                    },
+                    dataType: 'json'
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    $('#liste-predictions').empty();
+                    var predictions = response.predictions;
+                    for (var i = 0; i < predictions.length; i++) {
+                        ajouter(predictions[i]);
+                    }
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+            
+            function ajouter(predictions) {
+                $("#liste-predictions").append(
+                        '<h2>' + predictions.message + '</h2>'
+                        );
+            }
+
+            function terminerVoyance() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'terminerVoyance',
+                        idConvo: id,
+                    },
+                    dataType: 'json'
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    if(response.done)
+                    {
+                    window.location = "accueilEmploye.html";
+                    } else alert("Une erreur est survenue")
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+        </script>
+    </body>
+</html>

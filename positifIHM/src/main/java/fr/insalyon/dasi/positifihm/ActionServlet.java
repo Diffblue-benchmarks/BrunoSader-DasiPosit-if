@@ -9,10 +9,12 @@ import fr.insalyon.dasi.positifihm.action.Action;
 import fr.insalyon.dasi.positifihm.action.ActionCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
 import fr.insalyon.dasi.positifihm.action.ActionConsulterMediums;
+import fr.insalyon.dasi.positifihm.action.ActionGenererVoyance;
 import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.action.ActionProfil;
 import fr.insalyon.dasi.positifihm.action.ActionProfilEmployer;
+import fr.insalyon.dasi.positifihm.action.ActionTerminerVoyance;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationAccueilEmploye;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationCaracteristiqueMediums;
@@ -22,6 +24,7 @@ import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfilEmploye;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationRecupererPrediction;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -105,6 +108,26 @@ public class ActionServlet extends HttpServlet {
                     action.act(request);
                     serialisation = new SerialisationAccueilEmploye();
                     serialisation.serialize(request, response);
+                    break;
+                case "genererVoyance":
+                    action = new ActionGenererVoyance();
+                    action.act(request);
+                    JsonObject json = new JsonObject();
+                    json.addProperty("bool", true);
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    gson.toJson(json, out);
+                    break;
+                case "afficherPrediction":
+                    serialisation = new SerialisationRecupererPrediction();
+                    serialisation.serialize(request, response);
+                    break;
+                case "terminerVoyance":
+                    action = new ActionTerminerVoyance();
+                    action.act(request);
+                    JsonObject jsonDone = new JsonObject();
+                    jsonDone.addProperty("done", true);
+                    Gson gsonDone = new GsonBuilder().setPrettyPrinting().create();
+                    gsonDone.toJson(jsonDone, out);
                     break;
                 case "deconnexion":
                     JsonObject jsonPers = new JsonObject();

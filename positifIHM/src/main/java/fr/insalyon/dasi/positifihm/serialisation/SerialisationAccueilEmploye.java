@@ -100,17 +100,25 @@ public class SerialisationAccueilEmploye extends Serialisation {
             JsonObject jsonPers = new JsonObject();
             jsonPers.addProperty("prenom", monEmploye.getPrenom());
             List<Conversation> listeConvo = monEmploye.getConversations();
-            if (listeConvo.size()>0) {
+            if (listeConvo.size() > 0) {
                 jsonPers.addProperty("bool", true);
+                int nbConvo = 0;
                 JsonArray jsonArrayConvo = new JsonArray();
                 for (Conversation uneConvo : listeConvo) {
-                    JsonObject jsonConvo = new JsonObject();
-                    jsonConvo.addProperty("client", uneConvo.getClient().getPrenom() + " " + uneConvo.getClient().getNom());
-                    jsonConvo.addProperty("medium", uneConvo.getMedium().getNom());
-                    jsonConvo.addProperty("id", uneConvo.getId());
-                    jsonArrayConvo.add(jsonConvo);
+                    if (uneConvo.getFin() == null) {
+                        nbConvo++;
+                        JsonObject jsonConvo = new JsonObject();
+                        jsonConvo.addProperty("client", uneConvo.getClient().getPrenom() + " " + uneConvo.getClient().getNom());
+                        jsonConvo.addProperty("medium", uneConvo.getMedium().getNom());
+                        jsonConvo.addProperty("id", uneConvo.getId());
+                        jsonArrayConvo.add(jsonConvo);
+                    }
                 }
-                jsonPers.add("convos", jsonArrayConvo);
+                if (nbConvo > 0) {
+                    jsonPers.add("convos", jsonArrayConvo);
+                } else {
+                    jsonPers.addProperty("bool", false);
+                }
             } else {
                 jsonPers.addProperty("bool", false);
             }

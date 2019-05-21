@@ -16,3 +16,4 @@ fr/insalyon/dasi/positifihm/serialisation/Serialisation.class
 fr/insalyon/dasi/positifihm/action/ActionHistorique.class
 fr/insalyon/dasi/positifihm/serialisation/SerialisationProfil.class
 fr/insalyon/dasi/positifihm/serialisation/SerialisationConsulterMediums.class
+fr/insalyon/dasi/positifihm/action/ActionGenererVoyance.class

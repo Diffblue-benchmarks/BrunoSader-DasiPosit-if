@@ -45,8 +45,8 @@
                     },
                     dataType: 'json'        // Type de retour attendu
                 }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    $('#prenom').html(response.prenom);
                     if (response.bool === true) {
-                        $('#prenom').html(response.prenom);
                         console.log(response.prenom);
                         $('#liste-convos').empty();
                         var convos = response.convos;
