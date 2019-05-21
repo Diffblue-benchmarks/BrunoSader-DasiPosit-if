@@ -12,6 +12,7 @@ import fr.insalyon.dasi.positifihm.action.ActionConsulterMediums;
 import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.action.ActionProfil;
+import fr.insalyon.dasi.positifihm.action.ActionProfilEmployer;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
@@ -19,6 +20,7 @@ import fr.insalyon.dasi.positifihm.serialisation.SerialisationConsulterMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfilEmploye;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -89,6 +91,12 @@ public class ActionServlet extends HttpServlet {
                     action = new ActionProfil();
                     action.act(request);
                     serialisation = new SerialisationProfil();
+                    serialisation.serialize(request, response);
+                    break;
+                case "profilEmploye":
+                    action = new ActionProfilEmployer();
+                    action.act(request);
+                    serialisation = new SerialisationProfilEmploye();
                     serialisation.serialize(request, response);
                     break;
                 case "deconnexion":
