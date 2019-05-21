@@ -30,7 +30,6 @@ and open the template in the editor.
                     $('#nomprenom').html(response.nomprenom);
                     $('#liste-mediums').empty();
                     var mediums = response.mediums;
-                    console.log(mediums);
                     for (var i = 0; i < mediums.length; i++) {
                         ajouter(mediums[i]);
                     }
