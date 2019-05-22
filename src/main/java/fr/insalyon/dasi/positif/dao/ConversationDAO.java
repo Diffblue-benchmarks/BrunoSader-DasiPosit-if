@@ -27,4 +27,9 @@ public class ConversationDAO {
         em.merge(c);
     }
     
+    public static Conversation obtenirConversationParId(long id) {
+         EntityManager em = JpaUtil.obtenirEntityManager();
+         return em.find(Conversation.class, id);
+    }
+    
 }

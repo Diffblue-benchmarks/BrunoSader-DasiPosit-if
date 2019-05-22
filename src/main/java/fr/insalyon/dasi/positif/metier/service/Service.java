@@ -435,6 +435,17 @@ public class Service {
         }
     }
     
+     public Conversation getConversationParId(long id){
+        JpaUtil.creerEntityManager();
+        Conversation convo = ConversationDAO.obtenirConversationParId(id);
+        JpaUtil.fermerEntityManager();
+        if (convo != null) {
+            return convo;
+        } else {
+            return null;
+        }
+    }
+    
     public Employe getEmployeParId(long id){
         JpaUtil.creerEntityManager();
         Employe personne = EmployeDAO.obtenirEmployeParId(id);
