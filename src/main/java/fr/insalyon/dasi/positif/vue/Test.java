@@ -41,12 +41,19 @@ public class Test {
         // Initialisation du JpaUtil
         JpaUtil.init();
         
-        /*Service service = new Service();
-        System.out.println("\n\n========== INITIALISATION ==========");
+        Service service = new Service();
+        /* System.out.println("\n\n========== INITIALISATION ==========");
         System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
-        Service.initialisation();*/
+        Service.initialisation(); */
         
-        demonstrationIHM();
+        long id = 2;
+        long idMed = 59;
+        List <Conversation> conv = service.getConversationsMed(id, idMed);
+        for (int i=0; i<conv.size(); i++)
+        {
+            System.out.println("***"+(conv.get(i)).getDebut());
+        }
+        // demonstrationIHM();
         //demonstrationTest();
         
         // Libération du JpaUtil
