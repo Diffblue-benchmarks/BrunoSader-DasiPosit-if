@@ -16,6 +16,7 @@ import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
 import fr.insalyon.dasi.positifihm.action.ActionProfil;
 import fr.insalyon.dasi.positifihm.action.ActionProfilEmployer;
+import fr.insalyon.dasi.positifihm.action.ActionStat;
 import fr.insalyon.dasi.positifihm.action.ActionTerminerVoyance;
 import fr.insalyon.dasi.positifihm.serialisation.Serialisation;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationAccueilEmploye;
@@ -28,6 +29,7 @@ import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfilEmploye;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationRecupererPrediction;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationStat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -86,6 +88,12 @@ public class ActionServlet extends HttpServlet {
                     action = new ActionDetailConvo();
                     action.act(request);
                     serialisation = new SerialisationDetailConvo();
+                    serialisation.serialize(request, response);
+                    break;
+                case "statistiques":
+                    action = new ActionStat();
+                    action.act(request);
+                    serialisation = new SerialisationStat();
                     serialisation.serialize(request, response);
                     break;
                 case "consulterMediums":
