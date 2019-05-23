@@ -22,10 +22,19 @@ and open the template in the editor.
                     },
                     dataType: 'json'        // Type de retour attendu
                 }).done(function (data) {  // Appel OK => "response" contient le resultat JSON
-                    $('#liste-convos').empty();
+                    $('#listeConvos').empty();
                     var convos = data.Conversations;
+                    var deja = new Boolean();
                     for (var i = 0; i < convos.length; i++) {
-                        ajouter(convos[i]);
+                        deja = false;
+                        for (var j = 0; j < i; j++) {
+                            if (convos[i].medium==convos[j].medium) {
+                                deja = true;
+                            }
+                        }
+                        if (!deja) {
+                            ajouter(convos[i]);
+                        }
                     }
                 }).fail(function (error) { // Appel KO => erreur a gérer
                     // Popup avec message d'erreur :
@@ -35,23 +44,66 @@ and open the template in the editor.
                 });
             }
             
-            function ajouter(convos) {
-                $("#liste-convos").append(
-                        '<li><a href="detail.html?id=' + convos.id + '">' + convos.medium +'</li>'
-                        );
+            function ajouter(conv) {
+                $("#listeConvos").append(
+                        '<li onclick="detail(' + conv.idMedium + ')">' + conv.medium + '</li>'
+                );
             }
 
             $(document).ready(function () {
                 loadHistory();
             })
+            
+            /* Fonction pour afficher les propriétés de chaque medium quand on clique dessus */
+            function detail(idMedium) {
+                $(document).ready(function () {
+                    $.ajax({
+                        url: './ActionServlet', // URL
+                        method: 'POST', // Méthode
+                        data: {// Paramètres
+                            todo: 'detailConvo',
+                            idMedium: idMedium
+                        },
+                        dataType: 'json' // Type de retour attendu
+                    }).done(function (data) {
+                        $('#selectedConvo').empty();
+                        var convosMed = data.ConversationsMed;
+                        for (var i = 0; i < convosMed.length; i++) {
+                            $('#selectedConvo').append(
+                                convosMed[i].debut + '           ' + convosMed[i].fin
+                            );
+                        }
+                    });
+                });
+            } 
         </script>
-        <title>Historique</title>
+        
+        <title> Historique </title>
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
     </head>
     <body>
+        
+        <div id="Liens">
+            <p> Historique </p>            
+            <a href="accueilClient.html"> Accueil </a>
+            <a href="Profil.html"> Profil </a>
+            <a href="mediums.html"> Mediums </a>
+            <a href="index.html"> Déconnexion </a>
+        </div>
+        
         <h1>Liste des consulations</h1>
-        <ul id="liste-convos">
+        
+        <ul id="listeConvos">
+            
+            
         </ul>
+        
+        <div id="selectedConvo">
+                    
+        </div>
+        
     </body>
 </html>

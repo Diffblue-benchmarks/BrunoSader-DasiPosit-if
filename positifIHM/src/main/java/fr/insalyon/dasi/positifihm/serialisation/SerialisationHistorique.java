@@ -104,6 +104,7 @@ public class SerialisationHistorique extends Serialisation {
                 jsonConvo.addProperty("id", uneConvo.getId());
                 jsonConvo.addProperty("employe", uneConvo.getEmploye().getNom());
                 jsonConvo.addProperty("medium", uneConvo.getMedium().getNom());
+                jsonConvo.addProperty("idMedium", uneConvo.getMedium().getId());
                 jsonConvo.addProperty("debut", dateFormat.format(uneConvo.getDebut()));
                 jsonConvo.addProperty("fin", dateFormat.format(uneConvo.getFin()));
                 jsonArrayConvo.add(jsonConvo);

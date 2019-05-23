@@ -22,8 +22,9 @@ and open the template in the editor.
             function ajouter(medium) {
                 $("#listeMediums").append(
                         '<li onclick="caract(' + medium.id + ')">' + medium.nom + '</li>'
-                        );
+                );
             }
+            
             $(document).ready(function () {
                 $.ajax({
                     url: './ActionServlet', method: 'POST',
@@ -41,7 +42,6 @@ and open the template in the editor.
             });
 
             /* Fonction pour afficher les propriétés de chaque medium quand on clique dessus */
-
             function caract(id) {
                 $(document).ready(function () {
                     $.ajax({
@@ -84,10 +84,10 @@ and open the template in the editor.
 
         </script>
 
-        <div id="liens">
+        <div id="Liens">
+            <p> Mediums </p>
             <a href="accueilClient.html"> Accueil </a>
-            <a href="monprofil.html"> Profil </a>
-            <a href="mediums.html"> Mediums </a>
+            <a href="Profil.html"> Profil </a>
             <a href="monhistorique.html"> Historique </a>
             <a href="index.html"> Déconnexion </a>
         </div>

@@ -1,19 +1,24 @@
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionConnexion.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionConsulterMediums.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationInscription.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionProfilEmployer.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationProfil.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/Serialisation.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationProfilEmploye.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionCaracteristiqueMediums.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationConsulterMediums.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionInscription.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionProfil.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationConnexion.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationCaracteristiqueMediums.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/ActionServlet.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/Action.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationAccueilEmploye.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionGenererVoyance.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/action/ActionHistorique.java
-/Users/brunosader/Desktop/INSA/3IF/Developemment d'Application pour Systeme d'Information/POSIT'IF/IHM WEB/DasiPosit-if/positifIHM/src/main/java/fr/insalyon/dasi/positifihm/serialisation/SerialisationHistorique.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionCaracteristiqueMediums.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\Action.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationAccueilEmploye.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationInscription.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionTerminerVoyance.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationProfilEmploye.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionInscription.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionProfilEmployer.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationRecupererPrediction.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionConsulterMediums.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionHistorique.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\ActionServlet.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionCommencerConsultation.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionDetailConvo.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionConnexion.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionProfil.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationCaracteristiqueMediums.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationConsulterMediums.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationHistorique.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationProfil.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\action\ActionGenererVoyance.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\Serialisation.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationConnexion.java
+L:\Mes documents\DASI\DasiPosit-if-master\positifIHM\src\main\java\fr\insalyon\dasi\positifihm\serialisation\SerialisationDetailConvo.java

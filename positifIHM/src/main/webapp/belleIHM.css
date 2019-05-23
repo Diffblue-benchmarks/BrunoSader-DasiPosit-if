@@ -22,12 +22,20 @@ h2 {
 }
 
 ul {
-
     color: white;
     text-align:center;
     font: 2em Comic Sans MS, Comic Sans, cursive
 }
 
+/* Pour les a href*/
+a {
+    color: white;
+    padding: 10px;
+    text-align:center;
+    font: 1.5em Comic Sans MS, Comic Sans, cursive
+}
+
+/* Pour blocks bleus */
 .form {
     background-color:rgba(0,191,255,0.5); /* #00BFFF deepSkyBlue */
     line-height: 2;
@@ -52,6 +60,7 @@ ul {
                                   et espacé régulièrement en largeur */ 
 }
 
+/* Pour boutons */
 .styled {
     margin-right: 5px;
     margin-top: 20px;

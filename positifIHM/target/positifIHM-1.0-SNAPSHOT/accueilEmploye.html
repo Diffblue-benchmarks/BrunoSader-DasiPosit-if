@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+@Roxane Gall Bruno Sader Solène Butruille
+-->
+<html>
+    <head>
+        <title>AccueilEmploye</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <div>Employe Home</div>
+
+        <div id="Liens">
+            <p> Accueil </p>
+            <a href="profilEmploye.html"> Profil </a>
+            <a href="mediums.html"> Mediums </a>
+            <a href="monhistorique.html"> Historique </a>
+            <a href="index.html"> Déconnexion </a>
+        </div>
+
+        <h1> Bonjour </h1>
+        <h1 id="prenom"> ... </h1>
+
+        <div class="form" id="alignement">
+            <ul id="liste-convos"></ul>
+        </div> 
+
+        <script>
+            $(document).ready(function () {
+                loadConversationEmploye();
+            })
+
+            function loadConversationEmploye() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'accueilEmploye',
+                    },
+                    dataType: 'json'        // Type de retour attendu
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    $('#prenom').html(response.prenom);
+                    if (response.bool === true) {
+                        console.log(response.prenom);
+                        $('#liste-convos').empty();
+                        var convos = response.convos;
+                        for (var i = 0; i < convos.length; i++) {
+                            ajouter(convos[i]);
+                        }
+                    } else {
+                        $("#liste-convos").append('<h2>Aucune conversation pour vous</h2>');
+                    }
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+
+            function ajouter(convos) {
+                $("#liste-convos").append(
+                        '<li>Client:' + convos.client +' Medium: '+convos.medium +'<button id='+convos.id+' onClick="onAccepterVoyance(this.id)">Accepter Voyance</button></li>'
+                        );
+            }
+            
+            function onAccepterVoyance(id) {
+                window.location = "generateurVoyance.html?id="+id;
+            }
+
+        </script>
+    </body>
+</html>

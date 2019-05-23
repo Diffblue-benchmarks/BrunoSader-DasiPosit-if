@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Profil Employe</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
+    </head>
+    <body>
+        <div>Profil Employe</div>
+        <h1 id="nomprenom"> ... </h1>
+        <h2>Mes mediums</h2>
+        <ul id="liste-mediums"></ul>
+        <script>
+            function loadProfilEmploye() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'profilEmploye',
+                    },
+                    dataType: 'json'        // Type de retour attendu
+                }).done(function (response) {  // Appel OK => "response" contient le resultat JSON
+                    $('#nomprenom').html(response.nomprenom);
+                    $('#liste-mediums').empty();
+                    var mediums = response.mediums;
+                    for (var i = 0; i < mediums.length; i++) {
+                        ajouter(mediums[i]);
+                    }
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+
+            function ajouter(mediums) {
+                $("#liste-mediums").append(
+                        '<li><a href="detail.html?id=' + mediums.id + '">' + mediums.nom + '</li>'
+                        );
+            }
+
+            $(document).ready(function () {
+                loadProfilEmploye();
+            })
+        </script>
+    </body>
+</html>

@@ -52,6 +52,15 @@
         </div>
 
         <script>
+            
+            function verif_champ(champ) { 
+                if (champ == "") { 
+                    alert("Un champ n'est pas rempli"); 
+                    return false; 
+                } 
+                return true; 
+            }
+            
             function connexion() {
 
                 var champLogin = $('#champ-login').val();
@@ -92,14 +101,30 @@
 
             function inscription() {
 
+                var tabChamps = [];
+                
                 var champLogin = $('#newEmail').val();
+                tabChamps.push(champLogin);
                 var champPassword = $('#newPswd').val();
+                tabChamps.push(champPassword);
                 var champNom = $('#newSurname').val();
+                tabChamps.push(champNom);
                 var champPrenom = $('#newName').val();
+                tabChamps.push(champPrenom);
                 var champAdresse = $('#newAdresse').val();
+                tabChamps.push(champAdresse);
                 var champDateDeNaissance = $('#newBirthDate').val();
+                tabChamps.push(champDateDeNaissance);
                 var champTel = $('#newTel').val();
+                tabChamps.push(champTel);
                 var champPasswordConfirme = $('#pswdConfirm').val();
+                tabChamps.push(champPasswordConfirme);
+                
+                for (var i = 0; i < 9; i++) {
+                    if(!verif_champ(tabChamps[i])) {
+                        break;
+                    }
+                }
 
                 // Message d'information dans la div #message :
                 $('#message').html('Inscription en cours...');
@@ -152,7 +177,8 @@
 
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Se Connecter"');
-
+                    
+                    
                     // appel de la fonction connexion
                     connexion();
 

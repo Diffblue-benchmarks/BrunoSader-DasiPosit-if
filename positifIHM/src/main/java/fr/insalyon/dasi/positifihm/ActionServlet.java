@@ -10,6 +10,7 @@ import fr.insalyon.dasi.positifihm.action.ActionCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.action.ActionCommencerConsultation;
 import fr.insalyon.dasi.positifihm.action.ActionConnexion;
 import fr.insalyon.dasi.positifihm.action.ActionConsulterMediums;
+import fr.insalyon.dasi.positifihm.action.ActionDetailConvo;
 import fr.insalyon.dasi.positifihm.action.ActionGenererVoyance;
 import fr.insalyon.dasi.positifihm.action.ActionHistorique;
 import fr.insalyon.dasi.positifihm.action.ActionInscription;
@@ -21,6 +22,7 @@ import fr.insalyon.dasi.positifihm.serialisation.SerialisationAccueilEmploye;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationCaracteristiqueMediums;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConnexion;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationConsulterMediums;
+import fr.insalyon.dasi.positifihm.serialisation.SerialisationDetailConvo;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationHistorique;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationInscription;
 import fr.insalyon.dasi.positifihm.serialisation.SerialisationProfil;
@@ -78,6 +80,12 @@ public class ActionServlet extends HttpServlet {
                     action = new ActionHistorique();
                     action.act(request);
                     serialisation = new SerialisationHistorique();
+                    serialisation.serialize(request, response);
+                    break;
+                case "detailConvo":
+                    action = new ActionDetailConvo();
+                    action.act(request);
+                    serialisation = new SerialisationDetailConvo();
                     serialisation.serialize(request, response);
                     break;
                 case "consulterMediums":
