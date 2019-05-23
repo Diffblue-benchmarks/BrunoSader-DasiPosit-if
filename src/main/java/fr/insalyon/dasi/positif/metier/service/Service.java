@@ -474,5 +474,12 @@ public class Service {
         JpaUtil.fermerEntityManager();
         return med;
     }
+    
+    public List<Conversation> getConversationsMed(long idClient, long idMedium) {
+        JpaUtil.creerEntityManager();
+        List<Conversation> convs = ConversationDAO.obtenirConvParMedium(idClient,idMedium);
+        JpaUtil.fermerEntityManager();
+        return convs;
+    }
  
 }
