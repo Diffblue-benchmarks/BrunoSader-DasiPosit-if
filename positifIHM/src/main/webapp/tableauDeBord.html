@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title> Tableau de Bord </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
+        <script>
+
+            function loadStat() {
+                $.ajax({
+                    url: './ActionServlet', // URL
+                    method: 'POST', // Méthode
+                    data: {// Paramètres
+                        todo: 'statistiques',
+                    },
+                    dataType: 'json'        // Type de retour attendu
+                }).done(function (data) {  // Appel OK => "response" contient le resultat JSON
+                    var stats1 = data.stats1;
+                    for (var i = 0; i < stats1.length; i++) {
+                            $("#graphVoyancesMed").append(
+                            '<li>' + stats1[i].personne + '     ' + stats1[i].valeur + '<br> </li>'
+                            );
+                    }
+                    
+                    var stats2 = data.stats2;
+                    for (var i = 0; i < stats2.length; i++) {
+                            $("#graphVoyancesEmp").append(
+                            '<li>' + stats2[i].personne + '     ' + stats2[i].valeur + '<br> </li>'
+                );
+                    }
+                    
+                }).fail(function (error) { // Appel KO => erreur a gérer
+                    // Popup avec message d'erreur :
+                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                });
+            }
+
+            $(document).ready(function () {
+                loadStat();
+            })
+            
+        </script>
+        
+        <title> Tableau de Bord </title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    </head>
+    <body>
+        
+        <div id="Liens">
+            <p> Historique </p>            
+            <a href="accueilEmploye.html"> Accueil </a>
+            <a href="profilEmploye.html"> Profil </a>
+            <a href="index.html"> Déconnexion </a>
+        </div>
+        
+        <h1> Statistiques </h1>
+
+        <div id="alignement">
+            <div id="graphVoyancesMed">
+            
+            </div>
+            
+            <h2> Nombre de voyances par médium </h2>
+        </div>
+        
+        <div id="alignement">
+            <div id="graphClientsEmp">
+            
+            </div>
+        </div>
+        
+        <div id="alignement">
+            <div id="graphVoyancesEmp">
+            
+            </div>
+            <h2> Nombre de voyances par employé </h2>
+        </div>
+        
+    </body>
+</html>
