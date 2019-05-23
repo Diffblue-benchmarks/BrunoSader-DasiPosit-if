@@ -10,9 +10,14 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
         <link href="belleIHM.css" rel="stylesheet" type="text/css" media="all">
         <script>
-
+            var VoyancesParMed = {
+                labels: new Array(),
+                data: new Array()
+            };
+                    
             function loadStat() {
                 $.ajax({
                     url: './ActionServlet', // URL
@@ -23,11 +28,13 @@ and open the template in the editor.
                     dataType: 'json'        // Type de retour attendu
                 }).done(function (data) {  // Appel OK => "response" contient le resultat JSON
                     var stats1 = data.stats1;
+ 
                     for (var i = 0; i < stats1.length; i++) {
-                            $("#graphVoyancesMed").append(
-                            '<li>' + stats1[i].personne + '     ' + stats1[i].valeur + '<br> </li>'
-                            );
+                            VoyancesParMed.labels.push(stats1[i].personne);
+                            VoyancesParMed.data.push(parseInt(stats1[i].valeur));
                     }
+                   
+                    console.log(VoyancesParMed);
                     
                     var stats2 = data.stats2;
                     for (var i = 0; i < stats2.length; i++) {
@@ -46,8 +53,64 @@ and open the template in the editor.
 
             $(document).ready(function () {
                 loadStat();
+                buildBarChart('container-1','Nombre de voyances par médium',VoyancesParMed);
             })
+
             
+            //buildMultiBarChart('container-3', VoyancesParEmp);
+
+            function buildBarChart(container, titleT , VoyanceParMed) {
+
+                Highcharts.chart(container, {
+
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    subtitle: {
+                        text: 'Source: INSA'
+                    },
+                    xAxis: {
+                        categories: VoyancesParMed.labels
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nombre de voyances'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{name: 'Données', data: VoyancesParMed.data}]
+                });
+            }
+
+
+            function buildPieChart(container, graphData) {
+
+                Highcharts.chart(container, {
+
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Temps de Parole pendant la Soutenance de Projet'
+                    },
+                    subtitle: {
+                        text: 'Temps de Parole (min) - Source: a priori'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{name: graphData.label, data: graphData.data}]
+                });
+            }
+    
         </script>
         
         <title> Tableau de Bord </title>
@@ -69,21 +132,22 @@ and open the template in the editor.
 
         <div id="alignement">
             <div id="graphVoyancesMed">
+                
+            <div id="container-1" class="highcharts-container"></div>
             
             </div>
-            
             <h2> Nombre de voyances par médium </h2>
         </div>
         
         <div id="alignement">
             <div id="graphClientsEmp">
-            
+            <div id="container-2" class="highcharts-container"></div>
             </div>
         </div>
         
         <div id="alignement">
             <div id="graphVoyancesEmp">
-            
+            <div id="container-3" class="highcharts-container"></div>
             </div>
             <h2> Nombre de voyances par employé </h2>
         </div>
